@@ -3,36 +3,150 @@
 <head>
 <meta charset="UTF-8">
 <title>Sagaz Motors Premium</title>
-<link rel="stylesheet" href="style.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+body{background:#000;color:#fff;font-family:Arial;margin:0}
+.container{max-width:900px;margin:auto;padding:20px}
+.logo{max-width:150px;display:block;margin:auto}
+form{display:grid;gap:10px}
+input{padding:12px;background:#111;color:#fff;border:none;border-bottom:1px solid #555}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+button{padding:15px;background:#fff;color:#000;border:none;cursor:pointer;font-weight:bold}
+canvas{background:#fff;width:100%;height:150px}
+</style>
 </head>
 <body>
 
-<div class="container" id="formulario">
-    <img src="logo.png" class="logo">
-    <h1>SAGAZ MOTORS PREMIUM</h1>
+<div class="container">
+<img src="logo.png" class="logo">
+<h2 style="text-align:center">SAGAZ MOTORS PREMIUM</h2>
 
-    <form id="form">
-        <input placeholder="Nome Completo" id="nome" required>
-        <input placeholder="CPF ou CNPJ" id="cpf" required>
-        <input placeholder="Telefone" id="telefone" required>
-        <input placeholder="Endereço" id="endereco" required>
-        <input placeholder="CEP" id="cep" required>
+<form id="form">
+<input placeholder="Nome Completo" id="nome" required>
+<input placeholder="CPF ou CNPJ" id="cpf" required>
+<input placeholder="Telefone" id="telefone" required>
 
-        <input placeholder="Marca" id="marca" required>
-        <input placeholder="Modelo" id="modelo" required>
-        <input placeholder="Chassi" id="chassi" required>
-        <input placeholder="Cor" id="cor" required>
-        <input placeholder="Valor" id="valor" required>
-
-        <p>Assinatura:</p>
-        <canvas id="assinatura"></canvas>
-        <button type="button" onclick="limpar()">Limpar Assinatura</button>
-
-        <button type="submit">GERAR PDF</button>
-    </form>
+<div class="row">
+<input placeholder="CEP" id="cep" required>
+<input placeholder="Número" id="numero" required>
 </div>
 
-<script src="script.js"></script>
+<input placeholder="Endereço" id="endereco" required>
+
+<div class="row">
+<input placeholder="Marca" id="marca" required>
+<input placeholder="Modelo" id="modelo" required>
+</div>
+
+<div class="row">
+<input placeholder="Chassi" id="chassi" required>
+<input placeholder="Cor" id="cor" required>
+</div>
+
+<input placeholder="Valor" id="valor" required>
+
+<p>Assinatura:</p>
+<canvas id="assinatura"></canvas>
+<button type="button" onclick="limpar()">Limpar Assinatura</button>
+
+<button type="submit">GERAR PDF</button>
+</form>
+</div>
+
+<script>
+// CEP automático
+cep.addEventListener('blur', async () => {
+ let v = cep.value.replace(/\D/g,'');
+ if(v.length === 8){
+  let res = await fetch(`https://viacep.com.br/ws/${v}/json/`);
+  let data = await res.json();
+  endereco.value = `${data.logradouro}, ${data.bairro}, ${data.localidade}-${data.uf}`;
+ }
+});
+
+// assinatura
+const canvas = document.getElementById('assinatura');
+const ctx = canvas.getContext('2d');
+let desenhando=false;
+
+canvas.addEventListener('mousedown',()=>desenhando=true);
+canvas.addEventListener('mouseup',()=>desenhando=false);
+canvas.addEventListener('mousemove',e=>{
+ if(!desenhando) return;
+ ctx.lineWidth=2;
+ ctx.lineCap='round';
+ ctx.lineTo(e.offsetX,e.offsetY);
+ ctx.stroke();
+ ctx.beginPath();
+ ctx.moveTo(e.offsetX,e.offsetY);
+});
+
+function limpar(){ctx.clearRect(0,0,canvas.width,canvas.height)}
+
+// gerar pdf completo
+form.addEventListener('submit', e=>{
+ e.preventDefault();
+ let numeroContrato = localStorage.getItem('contrato') || 1;
+ localStorage.setItem('contrato', parseInt(numeroContrato)+1);
+
+ const { jsPDF } = window.jspdf;
+ const doc = new jsPDF();
+
+ let y = 15;
+ const addLine = (text)=>{ doc.text(text, 10, y); y+=6; };
+
+ addLine("SAGAZ MOTORS LTDA");
+ addLine("CNPJ: 63.535.526/0001-96");
+ addLine("Av. Paranapuan, 1771C - Tauá - Rio de Janeiro/RJ");
+ addLine("Contato: (21) 99905-2694 | @sagazmotors");
+ y+=4;
+
+ addLine("CONTRATO Nº: "+numeroContrato);
+ y+=4;
+
+ addLine("DADOS DO COMPRADOR");
+ addLine("Nome: "+nome.value);
+ addLine("CPF/CNPJ: "+cpf.value);
+ addLine("Telefone: "+telefone.value);
+ addLine("Endereço: "+endereco.value+", Nº "+numero.value);
+ y+=4;
+
+ addLine("DADOS DO VEÍCULO");
+ addLine("Marca/Modelo: "+marca.value+" "+modelo.value);
+ addLine("Chassi: "+chassi.value);
+ addLine("Cor: "+cor.value);
+ addLine("Valor: R$ "+valor.value);
+ y+=4;
+
+ addLine("1. RESPONSABILIDADE LEGAL");
+ addLine("O comprador declara estar ciente das normas do CONTRAN (Resolução 996/2023), assumindo responsabilidade por alterações no veículo.");
+
+ addLine("2. GARANTIA");
+ addLine("Garantia de 12 meses para motor e bateria e 90 dias para componentes eletrônicos.");
+
+ addLine("3. CONDIÇÕES DE GARANTIA");
+ addLine("Uso correto e revisões obrigatórias são necessárias.");
+
+ addLine("4. PERDA DE GARANTIA");
+ addLine("Ocorre por mau uso, água excessiva, modificações ou falta de revisão.");
+
+ y+=4;
+ addLine("MANUAL DO USUÁRIO");
+ addLine("• Resistência apenas a chuviscos");
+ addLine("• Evitar chuva forte e alagamentos");
+ addLine("• Carregar bateria semanalmente (mín. 3h)");
+ addLine("• Revisões a cada 90 dias na Sagaz Motors");
+
+ y+=10;
+ doc.text("SAGAZ MOTORS", 10, y);
+ doc.text(nome.value, 120, y);
+
+ let img = canvas.toDataURL();
+ doc.addImage(img,'PNG',110,y+5,80,30);
+
+ doc.save("contrato_"+numeroContrato+".pdf");
+});
+</script>
+
 </body>
 </html>
