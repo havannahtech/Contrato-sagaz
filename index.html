@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Sagaz Motors Premium</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+
+<div class="container" id="formulario">
+    <img src="logo.png" class="logo">
+    <h1>SAGAZ MOTORS PREMIUM</h1>
+
+    <form id="form">
+        <input placeholder="Nome Completo" id="nome" required>
+        <input placeholder="CPF ou CNPJ" id="cpf" required>
+        <input placeholder="Telefone" id="telefone" required>
+        <input placeholder="Endereço" id="endereco" required>
+        <input placeholder="CEP" id="cep" required>
+
+        <input placeholder="Marca" id="marca" required>
+        <input placeholder="Modelo" id="modelo" required>
+        <input placeholder="Chassi" id="chassi" required>
+        <input placeholder="Cor" id="cor" required>
+        <input placeholder="Valor" id="valor" required>
+
+        <p>Assinatura:</p>
+        <canvas id="assinatura"></canvas>
+        <button type="button" onclick="limpar()">Limpar Assinatura</button>
+
+        <button type="submit">GERAR PDF</button>
+    </form>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
