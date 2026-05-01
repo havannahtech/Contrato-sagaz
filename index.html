@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema Sagaz Motors - Contrato Profissional v4</title>
+    <title>Sistema Sagaz Motors - Contrato Profissional v5</title>
     <style>
         :root { --primary: #000; --bg: #f0f2f5; }
         body { font-family: 'Times New Roman', Times, serif; background: var(--bg); margin: 0; padding: 20px; font-size: 18px; }
@@ -16,6 +16,7 @@
         legend { font-weight: bold; text-transform: uppercase; font-size: 16px; color: #444; padding: 0 10px; }
         
         input { width: 100%; padding: 15px; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; }
+        input:disabled { background-color: #f9f9f9; cursor: not-allowed; }
         button { width: 100%; padding: 25px; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 20px; text-transform: uppercase; transition: 0.3s; }
         button:hover { background: #333; transform: scale(1.01); }
 
@@ -60,8 +61,8 @@
                 <input type="text" id="in_nome" placeholder="Nome Completo" required>
                 <input type="text" id="in_doc" placeholder="CPF ou CNPJ" oninput="maskDoc(this)" maxlength="18">
                 <input type="text" id="in_tel" placeholder="WhatsApp (DDD)" oninput="maskTel(this)">
-                <input type="text" id="in_cep" placeholder="CEP" oninput="maskCEP(this)">
-                <input type="text" id="in_end" placeholder="Endereço Completo" style="grid-column: span 2;">
+                <input type="text" id="in_cep" placeholder="CEP (Busca automática)" oninput="maskCEP(this)" onblur="buscaCEP(this.value)" maxlength="9">
+                <input type="text" id="in_end" placeholder="Endereço Completo (Rua, Nº, Bairro, Cidade - UF)" style="grid-column: span 2;">
             </div>
         </fieldset>
 
@@ -80,7 +81,6 @@
 </div>
 
 <div id="contract-printable">
-    <!-- PÁGINA 1 -->
     <div class="header-contract">
         <div class="logo-text">SAGAZ MOTORS PREMIUM</div>
         <div class="company-info">
@@ -141,6 +141,26 @@
 </div>
 
 <script>
+    // Busca automática de CEP
+    function buscaCEP(valor) {
+        const cep = valor.replace(/\D/g, '');
+        if (cep !== "" && cep.length === 8) {
+            document.getElementById('in_end').value = "...";
+            fetch(`https://viacep.com.br/ws/${cep}/json/`)
+                .then(response => response.json())
+                .then(dados => {
+                    if (!("erro" in dados)) {
+                        document.getElementById('in_end').value = `${dados.logradouro}, , ${dados.bairro}, ${dados.localidade} - ${dados.uf}`;
+                        document.getElementById('in_end').focus();
+                    } else {
+                        alert("CEP não encontrado.");
+                        document.getElementById('in_end').value = "";
+                    }
+                })
+                .catch(() => alert("Erro ao buscar o CEP."));
+        }
+    }
+
     function maskDoc(i) {
         let v = i.value.replace(/\D/g, "");
         if (v.length <= 11) v = v.replace(/(\d{3})(\d)/, "$1.$2").replace(/(\d{3})(\d)/, "$1.$2").replace(/(\d{3})(\d{1,2})$/, "$1-$2");
@@ -156,6 +176,7 @@
         let v = i.value.replace(/\D/g, "");
         v = v.replace(/(\d{5})(\d)/, "$1-$2");
         i.value = v;
+        if(v.length === 9) buscaCEP(v);
     }
     function maskMoney(i) {
         let v = i.value.replace(/\D/g, "");
@@ -173,12 +194,12 @@
             const input = document.getElementById('in_' + f);
             const output = document.getElementById('out_' + f);
             if(input && output) {
-                output.innerText = input.value || "_________________________";
+                output.innerText = input.value.toUpperCase() || "_________________________";
             }
         });
 
-        document.getElementById('out_nome_sig').innerText = document.getElementById('in_nome').value || "_________________________";
-        document.getElementById('out_vendedor_sig').innerText = document.getElementById('in_vendedor').value || "_________________________";
+        document.getElementById('out_nome_sig').innerText = document.getElementById('in_nome').value.toUpperCase() || "_________________________";
+        document.getElementById('out_vendedor_sig').innerText = document.getElementById('in_vendedor').value.toUpperCase() || "_________________________";
         document.getElementById('out_data').innerText = new Date().toLocaleDateString('pt-BR');
 
         const printableArea = document.getElementById('contract-printable');
