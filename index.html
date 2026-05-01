@@ -42,10 +42,10 @@
             .logo-text { font-size: 24px; font-weight: bold; }
             .company-info { text-align: right; font-size: 10px; line-height: 1.4; }
             
-            .section-title { background: #000; color: #fff; padding: 5px 10px; font-weight: bold; margin-top: 20px; text-transform: uppercase; font-size: 14px; }
-            .content { font-size: 12px; text-align: justify; line-height: 1.6; }
-            .signature-box { display: flex; justify-content: space-around; margin-top: 80px; text-align: center; }
-            .sig-line { border-top: 1px solid #000; width: 250px; padding-top: 5px; font-size: 12px; }
+            .section-title { background: #000; color: #fff; padding: 5px 10px; font-weight: bold; margin-top: 20px; text-transform: uppercase; font-size: 13px; }
+            .content { font-size: 12px; text-align: justify; line-height: 1.5; }
+            .signature-box { display: flex; justify-content: space-around; margin-top: 60px; text-align: center; }
+            .sig-line { border-top: 1px solid #000; width: 250px; padding-top: 5px; font-size: 11px; }
         }
     </style>
 </head>
@@ -58,24 +58,24 @@
             <legend>Dados do Cliente</legend>
             <div class="grid">
                 <input type="text" id="in_nome" placeholder="Nome Completo / Razão Social" required>
-                <input type="text" id="in_doc" placeholder="CPF ou CNPJ" oninput="maskDoc(this)" required>
-                <input type="text" id="in_tel" placeholder="Telefone com DDD" oninput="maskTel(this)" required>
-                <input type="text" id="in_cep" placeholder="CEP" oninput="maskCEP(this)" required>
-                <input type="text" id="in_end" placeholder="Endereço Completo" style="grid-column: span 2;">
+                <input type="text" id="in_doc" placeholder="CPF ou CNPJ" oninput="maskDoc(this)" maxlength="18" required>
+                <input type="text" id="in_tel" placeholder="Telefone com DDD" oninput="maskTel(this)" maxlength="15" required>
+                <input type="text" id="in_cep" placeholder="CEP" oninput="maskCEP(this)" maxlength="9" required>
+                <input type="text" id="in_end" placeholder="Endereço Completo (Rua, Nº, Bairro, Cidade)" style="grid-column: span 2;">
             </div>
         </fieldset>
 
         <fieldset>
             <legend>Dados do Veículo</legend>
             <div class="grid">
-                <input type="text" id="in_modelo" placeholder="Modelo da Moto">
+                <input type="text" id="in_modelo" placeholder="Modelo do Veículo">
                 <input type="text" id="in_cor" placeholder="Cor">
                 <input type="text" id="in_chassi" placeholder="Nº de Série / Chassi">
-                <input type="text" id="in_valor" placeholder="Valor da Venda (R$)">
+                <input type="text" id="in_valor" placeholder="Valor da Venda (R$)" oninput="maskMoney(this)">
             </div>
         </fieldset>
 
-        <button type="button" onclick="generate()">Gerar e Salvar Contrato</button>
+        <button type="button" onclick="generate()">Gerar e Imprimir Contrato</button>
     </form>
 </div>
 
@@ -85,31 +85,32 @@
         <div class="company-info">
             <strong>SAGAZ MOTORS LTDA</strong><br>
             CNPJ: 63.535.526/0001-96<br>
-            Av. Paranapuan, 1771C - Tauá - RJ<br>
+            Av. Paranapuan, 1771C - Tauá - Rio de Janeiro/RJ<br>
             (21) 99905-2694 | @sagazmotors
         </div>
     </div>
 
     <div class="content">
-        <p style="text-align: center; font-weight: bold; font-size: 16px;">CONTRATO DE COMPRA E VENDA DE VEÍCULO ELÉTRICO</p>
+        <p style="text-align: center; font-weight: bold; font-size: 16px; text-decoration: underline;">CONTRATO DE COMPRA E VENDA DE VEÍCULO ELÉTRICO</p>
 
         <div class="section-title">1. AS PARTES</div>
-        <p><strong>VENDEDOR:</strong> SAGAZ MOTORS LTDA, inscrita no CNPJ sob o nº 63.535.526/0001-96.</p>
-        <p><strong>COMPRADOR:</strong> <span id="out_nome"></span>, Inscrito no CPF/CNPJ sob o nº <span id="out_doc"></span>, residente em <span id="out_end"></span>, CEP: <span id="out_cep"></span>, Tel: <span id="out_tel"></span>.</p>
+        <p><strong>VENDEDOR:</strong> SAGAZ MOTORS LTDA, inscrita no CNPJ sob o nº 63.535.526/0001-96, estabelecida no Rio de Janeiro/RJ.</p>
+        <p><strong>COMPRADOR:</strong> <span id="out_nome"></span>, inscrito no CPF/CNPJ sob o nº <span id="out_doc"></span>, residente em <span id="out_end"></span>, CEP: <span id="out_cep"></span>, Tel: <span id="out_tel"></span>.</p>
 
         <div class="section-title">2. O OBJETO</div>
-        <p>O presente contrato tem como objeto a venda do veículo autopropelido Modelo: <span id="out_modelo"></span>, Cor: <span id="out_cor"></span>, Chassi/Série: <span id="out_chassi"></span>, pelo valor de R$ <span id="out_valor"></span>.</p>
+        <p>O presente contrato tem como objeto a venda do veículo autopropelido/elétrico Modelo: <strong><span id="out_modelo"></span></strong>, Cor: <strong><span id="out_cor"></span></strong>, Chassi/Série: <strong><span id="out_chassi"></span></strong>, pelo valor total de R$ <strong><span id="out_valor"></span></strong>.</p>
 
         <div class="section-title">3. CONFORMIDADE E GARANTIA</div>
         <p>3.1. O veículo objeto deste contrato está em total conformidade com a <strong>Resolução CONTRAN nº 996/2023</strong>.</p>
-        <p>3.2. <strong>GARANTIA:</strong> A Vendedora oferece garantia de <strong>01 (um) ano para Motor e Bateria</strong> e 90 dias para defeitos  de fabricação das peças eletricas demais..</p>
-        <p>3.3. <strong>REVISÕES:</strong> O comprador compromete-se a realizar revisões obrigatórias a cada <strong>90 dias</strong>, exclusivamente na rede autorizada Sagaz Motors. O não comparecimento do veiculo para as revisões necessárias invalida a garantia.</p>
-        <p>3.4. <strong>RESPONSABILIDADE:</strong> O comprador declara ciência de que o desbloqueio de velocidade original do veículo é de sua inteira responsabilidade, acarretando perda automática da garantia e alteração na categoria jurídica do veículo. A integridade do sistema elétrico depende da observação das diretrizes de uso do manual; lembre-se que danos causados por agentes externos, como a água, podem ser interpretados como uso indevido e afetar a cobertura da garantia.</p>
+        <p>3.2. <strong>GARANTIA:</strong> A Vendedora oferece garantia legal de <strong>01 (um) ano para Motor e Bateria</strong> e 90 dias para defeitos de fabricação de componentes elétricos e demais peças.</p>
+        <p>3.3. <strong>REVISÕES:</strong> O comprador compromete-se a realizar as revisões obrigatórias a cada <strong>90 dias</strong>, exclusivamente na rede autorizada Sagaz Motors. O não comparecimento para as revisões periódicas invalida a garantia por falta de manutenção preventiva.</p>
+        <p>3.4. <strong>USO INDEVIDO:</strong> A integridade do sistema elétrico depende da estrita observação das diretrizes do manual. Danos causados por agentes externos, <strong>como exposição excessiva à umidade ou submersão em água</strong>, serão interpretados como mau uso, acarretando a perda imediata da garantia.</p>
+        <p>3.5. <strong>DESBLOQUEIO:</strong> O comprador declara ciência de que o desbloqueio da velocidade original é de sua inteira responsabilidade, acarretando perda automática da garantia e alteração na categoria jurídica do veículo perante o CTB.</p>
 
         <div class="section-title">4. FORO</div>
-        <p>Fica eleito o foro da comarca do Rio de Janeiro para dirimir quaisquer dúvidas oriundas deste instrumento.</p>
+        <p>As partes elegem o foro da comarca do Rio de Janeiro para dirimir quaisquer dúvidas oriundas deste instrumento.</p>
 
-        <p style="margin-top: 40px;">Rio de Janeiro, <span id="out_data"></span></p>
+        <p style="margin-top: 40px; text-align: right;">Rio de Janeiro, <span id="out_data"></span></p>
 
         <div class="signature-box">
             <div class="sig-line">SAGAZ MOTORS LTDA<br>Vendedor</div>
@@ -142,21 +143,39 @@
         i.value = v;
     }
 
-    // GERAÇÃO E SALVAMENTO LOCAL
+    function maskMoney(i) {
+        let v = i.value.replace(/\D/g, "");
+        v = (v / 100).toFixed(2) + "";
+        v = v.replace(".", ",");
+        v = v.replace(/(\d)(\d{3})(\d{3}),/g, "$1.$2.$3,");
+        v = v.replace(/(\d)(\d{3}),/g, "$1.$2,");
+        i.value = v;
+    }
+
+    // GERAÇÃO
     function generate() {
         const fields = ['nome', 'doc', 'tel', 'cep', 'end', 'modelo', 'cor', 'chassi', 'valor'];
-        const data = {};
+        let valid = true;
 
         fields.forEach(f => {
-            const val = document.getElementById('in_' + f).value;
-            data[f] = val;
-            document.getElementById('out_' + f).innerText = val || '__________';
+            const input = document.getElementById('in_' + f);
+            const val = input.value;
+            if(input.required && !val) valid = false;
+            
+            document.getElementById('out_' + f).innerText = val || '____________________';
         });
 
-        document.getElementById('out_nome_sig').innerText = data.nome;
+        if(!valid) {
+            alert("Por favor, preencha todos os campos obrigatórios.");
+            return;
+        }
+
+        document.getElementById('out_nome_sig').innerText = document.getElementById('in_nome').value;
         document.getElementById('out_data').innerText = new Date().toLocaleDateString('pt-BR');
 
-        // Gravação interna sem Backend (LocalStorage)
+        // Salva no histórico local
+        const data = {};
+        fields.forEach(f => data[f] = document.getElementById('in_' + f).value);
         const history = JSON.parse(localStorage.getItem('sagaz_vendas') || '[]');
         history.push({...data, dataVenda: new Date().toISOString()});
         localStorage.setItem('sagaz_vendas', JSON.stringify(history));
