@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema Sagaz Motors Premium</title>
+    <title>Sistema Sagaz Motors Premium - V2</title>
     <style>
-        /* DESIGN PREMIUM */
         :root {
             --primary: #000000;
             --accent: #d4af37;
@@ -13,136 +12,147 @@
         }
 
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); margin: 0; padding: 20px; }
+        .no-print { max-width: 900px; margin: 0 auto; background: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin-bottom: 50px;}
         
-        .no-print { max-width: 900px; margin: 0 auto; background: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-        
-        h1 { text-align: center; color: var(--primary); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 30px; }
-        
+        h1 { text-align: center; color: var(--primary); letter-spacing: 2px; text-transform: uppercase; }
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
-        
         fieldset { border: 1px solid #eee; border-radius: 10px; padding: 20px; margin-bottom: 25px; }
         legend { font-weight: bold; text-transform: uppercase; font-size: 0.8em; color: #666; padding: 0 10px; }
+        input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
         
-        input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; transition: 0.3s; }
-        input:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 5px rgba(0,0,0,0.1); }
-        
-        button { width: 100%; padding: 18px; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; text-transform: uppercase; transition: 0.3s; margin-top: 20px; }
-        button:hover { background: #333; transform: translateY(-2px); }
+        button { width: 100%; padding: 18px; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; text-transform: uppercase; transition: 0.3s; }
+        button:hover { background: #333; }
 
-        /* ESTILO DO CONTRATO (IMPRESSÃO) */
+        /* ESTILO DO CONTRATO */
         #contract-printable { display: none; }
 
         @media print {
             .no-print { display: none !important; }
-            #contract-printable { display: block !important; background: white; width: 100%; }
+            #contract-printable { display: block !important; background: white; }
             body { background: white; padding: 0; }
-            @page { size: A4; margin: 15mm; }
+            @page { size: A4; margin: 20mm; }
             
-            .header-contract { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #000; padding-bottom: 10px; margin-bottom: 30px; }
-            .logo-text { font-size: 24px; font-weight: bold; }
-            .company-info { text-align: right; font-size: 10px; line-height: 1.4; }
+            .page-break { page-break-before: always; margin-top: 20mm; }
             
-            .section-title { background: #000; color: #fff; padding: 5px 10px; font-weight: bold; margin-top: 20px; text-transform: uppercase; font-size: 13px; }
-            .content { font-size: 12px; text-align: justify; line-height: 1.5; }
-            .signature-box { display: flex; justify-content: space-around; margin-top: 60px; text-align: center; }
-            .sig-line { border-top: 1px solid #000; width: 250px; padding-top: 5px; font-size: 11px; }
+            .header-contract { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #000; padding-bottom: 10px; margin-bottom: 20px; }
+            .logo-text { font-size: 22px; font-weight: bold; }
+            .company-info { text-align: right; font-size: 9px; line-height: 1.2; }
+            
+            .section-title { background: #f0f0f0; border-left: 4px solid #000; color: #000; padding: 5px 10px; font-weight: bold; margin-top: 15px; text-transform: uppercase; font-size: 12px; }
+            .content { font-size: 11px; text-align: justify; line-height: 1.4; }
+            .signature-box { display: flex; justify-content: space-around; margin-top: 50px; text-align: center; }
+            .sig-line { border-top: 1px solid #000; width: 250px; padding-top: 5px; font-size: 10px; }
         }
     </style>
 </head>
 <body>
 
 <div class="no-print">
-    <h1>Sagaz Motors Premium</h1>
+    <h1>Gerador de Contrato Sagaz Motors</h1>
     <form id="contractForm">
         <fieldset>
             <legend>Dados do Cliente</legend>
             <div class="grid">
-                <input type="text" id="in_nome" placeholder="Nome Completo / Razão Social" required>
-                <input type="text" id="in_doc" placeholder="CPF ou CNPJ" oninput="maskDoc(this)" maxlength="18" required>
-                <input type="text" id="in_tel" placeholder="Telefone com DDD" oninput="maskTel(this)" maxlength="15" required>
-                <input type="text" id="in_cep" placeholder="CEP" oninput="maskCEP(this)" maxlength="9" required>
-                <input type="text" id="in_end" placeholder="Endereço Completo (Rua, Nº, Bairro, Cidade)" style="grid-column: span 2;">
+                <input type="text" id="in_nome" placeholder="Nome Completo" required>
+                <input type="text" id="in_doc" placeholder="CPF ou CNPJ" oninput="maskDoc(this)" maxlength="18">
+                <input type="text" id="in_tel" placeholder="WhatsApp" oninput="maskTel(this)">
+                <input type="text" id="in_cep" placeholder="CEP" oninput="maskCEP(this)">
+                <input type="text" id="in_end" placeholder="Endereço" style="grid-column: span 2;">
             </div>
         </fieldset>
-
         <fieldset>
             <legend>Dados do Veículo</legend>
             <div class="grid">
-                <input type="text" id="in_modelo" placeholder="Modelo do Veículo">
+                <input type="text" id="in_modelo" placeholder="Modelo">
                 <input type="text" id="in_cor" placeholder="Cor">
-                <input type="text" id="in_chassi" placeholder="Nº de Série / Chassi">
-                <input type="text" id="in_valor" placeholder="Valor da Venda (R$)" oninput="maskMoney(this)">
+                <input type="text" id="in_chassi" placeholder="Chassi/Série">
+                <input type="text" id="in_valor" placeholder="Valor (R$)" oninput="maskMoney(this)">
             </div>
         </fieldset>
-
-        <button type="button" onclick="generate()">Gerar e Imprimir Contrato</button>
+        <button type="button" onclick="generate()">Gerar Contrato Completo (2 Páginas)</button>
     </form>
 </div>
 
 <div id="contract-printable">
+    <!-- PÁGINA 1 -->
     <div class="header-contract">
         <div class="logo-text">SAGAZ MOTORS PREMIUM</div>
         <div class="company-info">
-            <strong>SAGAZ MOTORS LTDA</strong><br>
-            CNPJ: 63.535.526/0001-96<br>
-            Av. Paranapuan, 1771C - Tauá - Rio de Janeiro/RJ<br>
-            (21) 99905-2694 | @sagazmotors
+            <strong>SAGAZ MOTORS LTDA</strong> | CNPJ: 63.535.526/0001-96<br>
+            Av. Paranapuan, 1771C - Tauá - RJ | (21) 99905-2694
         </div>
     </div>
 
     <div class="content">
-        <p style="text-align: center; font-weight: bold; font-size: 16px; text-decoration: underline;">CONTRATO DE COMPRA E VENDA DE VEÍCULO ELÉTRICO</p>
+        <h2 style="text-align: center; font-size: 14px;">CONTRATO E TERMO DE RESPONSABILIDADE</h2>
 
-        <div class="section-title">1. AS PARTES</div>
-        <p><strong>VENDEDOR:</strong> SAGAZ MOTORS LTDA, inscrita no CNPJ sob o nº 63.535.526/0001-96, estabelecida no Rio de Janeiro/RJ.</p>
-        <p><strong>COMPRADOR:</strong> <span id="out_nome"></span>, inscrito no CPF/CNPJ sob o nº <span id="out_doc"></span>, residente em <span id="out_end"></span>, CEP: <span id="out_cep"></span>, Tel: <span id="out_tel"></span>.</p>
+        <div class="section-title">1. IDENTIFICAÇÃO DAS PARTES</div>
+        <p><strong>VENDEDORA:</strong> SAGAZ MOTORS LTDA, CNPJ 63.535.526/0001-96.</p>
+        <p><strong>COMPRADOR:</strong> <span id="out_nome"></span>, CPF/CNPJ: <span id="out_doc"></span>, Endereço: <span id="out_end"></span>, CEP: <span id="out_cep"></span>.</p>
 
-        <div class="section-title">2. O OBJETO</div>
-        <p>O presente contrato tem como objeto a venda do veículo autopropelido/elétrico Modelo: <strong><span id="out_modelo"></span></strong>, Cor: <strong><span id="out_cor"></span></strong>, Chassi/Série: <strong><span id="out_chassi"></span></strong>, pelo valor total de R$ <strong><span id="out_valor"></span></strong>.</p>
+        <div class="section-title">2. OBJETO E VALOR</div>
+        <p>Venda de veículo elétrico Modelo: <strong><span id="out_modelo"></span></strong>, Cor: <strong><span id="out_cor"></span></strong>, Chassi: <strong><span id="out_chassi"></span></strong>, pelo valor de R$ <strong><span id="out_valor"></span></strong>.</p>
 
-        <div class="section-title">3. CONFORMIDADE E GARANTIA</div>
-        <p>3.1. O veículo objeto deste contrato está em total conformidade com a <strong>Resolução CONTRAN nº 996/2023</strong>.</p>
-        <p>3.2. <strong>GARANTIA:</strong> A Vendedora oferece garantia legal de <strong>01 (um) ano para Motor e Bateria</strong> e 90 dias para defeitos de fabricação de componentes elétricos e demais peças.</p>
-        <p>3.3. <strong>REVISÕES:</strong> O comprador compromete-se a realizar as revisões obrigatórias a cada <strong>90 dias</strong>, exclusivamente na rede autorizada Sagaz Motors. O não comparecimento para as revisões periódicas invalida a garantia por falta de manutenção preventiva.</p>
-        <p>3.4. <strong>USO INDEVIDO:</strong> A integridade do sistema elétrico depende da estrita observação das diretrizes do manual. Danos causados por agentes externos, <strong>como exposição excessiva à umidade ou submersão em água</strong>, serão interpretados como mau uso, acarretando a perda imediata da garantia.</p>
-        <p>3.5. <strong>DESBLOQUEIO:</strong> O comprador declara ciência de que o desbloqueio da velocidade original é de sua inteira responsabilidade, acarretando perda automática da garantia e alteração na categoria jurídica do veículo perante o CTB.</p>
+        <div class="section-title">3. GARANTIA E PRAZOS</div>
+        <p>3.1. <strong>Motor e Bateria:</strong> 01 (um) ano contra defeitos internos de fabricação.</p>
+        <p>3.2. <strong>Componentes Elétricos:</strong> 90 dias (controladora, painel, chicote).</p>
+        <p>3.3. <strong>Desgaste Natural:</strong> Peças como pneus, pastilhas de freio, lâmpadas e rolamentos possuem garantia apenas contra defeitos de fabricação constatados na entrega.</p>
 
-        <div class="section-title">4. FORO</div>
-        <p>As partes elegem o foro da comarca do Rio de Janeiro para dirimir quaisquer dúvidas oriundas deste instrumento.</p>
+        <div class="section-title">4. MANUTENÇÃO E REVISÕES OBRIGATÓRIAS</div>
+        <p>4.1. Para validade da garantia, o comprador deverá realizar revisões preventivas a cada <strong>90 dias</strong> na oficina autorizada Sagaz Motors.</p>
+        <p>4.2. A ausência de qualquer revisão carimbada ou registrada no sistema invalida automaticamente a garantia contratual.</p>
 
-        <p style="margin-top: 40px; text-align: right;">Rio de Janeiro, <span id="out_data"></span></p>
+        <div class="section-title">5. CUIDADOS COM A BATERIA E PARTE ELÉTRICA</div>
+        <p>5.1. <strong>UMIDADE:</strong> O comprador declara-se ciente de que o veículo NÃO é submersível. A exposição excessiva à chuva, lavagem com jato de alta pressão ou submersão em poças d'água causará danos irreversíveis, caracterizando <strong>MAU USO</strong> e perda total da garantia.</p>
+        <p>5.2. <strong>CARREGAMENTO:</strong> Utilizar exclusivamente o carregador original. Ciclos de carga incompletos frequentes ou deixar a bateria descarregada por longos períodos (acima de 15 dias) podem reduzir a vida útil, não sendo coberto por garantia.</p>
+
+        <!-- QUEBRA DE PÁGINA AQUI -->
+        <div class="page-break"></div>
+
+        <div class="section-title">6. REGRAS DE TRÂNSITO E RESOLUÇÃO CONTRAN 996/23</div>
+        <p>6.1. O veículo enquadra-se como autopropelido/bicicleta elétrica conforme a Resolução 996/23 do CONTRAN.</p>
+        <p>6.2. É obrigatório o uso de capacete e o respeito aos limites de velocidade em ciclovias (20km/h) e vias compartilhadas.</p>
+        <p>6.3. <strong>DESBLOQUEIO:</strong> Qualquer alteração no software ou hardware para aumentar a velocidade nominal do veículo acima do permitido por lei é de inteira responsabilidade do comprador, transformando o veículo em ciclomotor, exigindo assim habilitação (ACC ou A) e emplacamento.</p>
+
+        <div class="section-title">7. ENTREGA E ESTADO DO VEÍCULO</div>
+        <p>7.1. O comprador confirma ter testado o veículo no ato da entrega, conferindo freios, luzes, aceleração e integridade física, aceitando-o no estado em que se encontra.</p>
+        <p>7.2. A Vendedora não se responsabiliza por acidentes, multas ou danos a terceiros causados pela condução imprudente do comprador.</p>
+
+        <div class="section-title">8. DISPOSIÇÕES GERAIS</div>
+        <p>8.1. Este contrato é irrevogável. Em caso de desistência após a retirada do veículo, será aplicada multa de 20% sobre o valor total em razão da depreciação do bem usado.</p>
+        <p>8.2. Fica eleito o Foro da Comarca do Rio de Janeiro para dirimir questões deste contrato.</p>
+
+        <p style="margin-top: 30px; text-align: right;">Rio de Janeiro, <span id="out_data"></span></p>
 
         <div class="signature-box">
             <div class="sig-line">SAGAZ MOTORS LTDA<br>Vendedor</div>
             <div class="sig-line"><span id="out_nome_sig"></span><br>Comprador</div>
         </div>
+        
+        <div class="signature-box" style="margin-top: 30px;">
+            <div class="sig-line" style="width: 200px; font-size: 8px;">Testemunha 1</div>
+            <div class="sig-line" style="width: 200px; font-size: 8px;">Testemunha 2</div>
+        </div>
     </div>
 </div>
 
 <script>
-    // MÁSCARAS AUTOMÁTICAS
     function maskDoc(i) {
         let v = i.value.replace(/\D/g, "");
-        if (v.length <= 11) {
-            v = v.replace(/(\d{3})(\d)/, "$1.$2").replace(/(\d{3})(\d)/, "$1.$2").replace(/(\d{3})(\d{1,2})$/, "$1-$2");
-        } else {
-            v = v.replace(/^(\d{2})(\d)/, "$1.$2").replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3").replace(/\.(\d{3})(\d)/, ".$1/$2").replace(/(\d{4})(\d)/, "$1-$2");
-        }
+        if (v.length <= 11) v = v.replace(/(\d{3})(\d)/, "$1.$2").replace(/(\d{3})(\d)/, "$1.$2").replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+        else v = v.replace(/^(\d{2})(\d)/, "$1.$2").replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3").replace(/\.(\d{3})(\d)/, ".$1/$2").replace(/(\d{4})(\d)/, "$1-$2");
         i.value = v;
     }
-
     function maskTel(i) {
         let v = i.value.replace(/\D/g, "");
         v = v.replace(/^(\d{2})(\d)/g, "($1) $2").replace(/(\d)(\d{4})$/, "$1-$2");
         i.value = v;
     }
-
     function maskCEP(i) {
         let v = i.value.replace(/\D/g, "");
         v = v.replace(/(\d{5})(\d)/, "$1-$2");
         i.value = v;
     }
-
     function maskMoney(i) {
         let v = i.value.replace(/\D/g, "");
         v = (v / 100).toFixed(2) + "";
@@ -152,37 +162,16 @@
         i.value = v;
     }
 
-    // GERAÇÃO
     function generate() {
         const fields = ['nome', 'doc', 'tel', 'cep', 'end', 'modelo', 'cor', 'chassi', 'valor'];
-        let valid = true;
-
         fields.forEach(f => {
-            const input = document.getElementById('in_' + f);
-            const val = input.value;
-            if(input.required && !val) valid = false;
-            
+            const val = document.getElementById('in_' + f).value;
             document.getElementById('out_' + f).innerText = val || '____________________';
         });
-
-        if(!valid) {
-            alert("Por favor, preencha todos os campos obrigatórios.");
-            return;
-        }
-
         document.getElementById('out_nome_sig').innerText = document.getElementById('in_nome').value;
         document.getElementById('out_data').innerText = new Date().toLocaleDateString('pt-BR');
-
-        // Salva no histórico local
-        const data = {};
-        fields.forEach(f => data[f] = document.getElementById('in_' + f).value);
-        const history = JSON.parse(localStorage.getItem('sagaz_vendas') || '[]');
-        history.push({...data, dataVenda: new Date().toISOString()});
-        localStorage.setItem('sagaz_vendas', JSON.stringify(history));
-
         window.print();
     }
 </script>
-
 </body>
 </html>
