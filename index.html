@@ -3,111 +3,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema Sagaz Motors Premium - Contrato Avançado</title>
+    <title>Sistema Sagaz Motors - Contrato de Alta Complexidade</title>
     <style>
-        :root { --primary: #000; --bg: #f8f9fa; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; padding: 20px; }
-        .no-print { max-width: 900px; margin: 0 auto; background: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
-        fieldset { border: 1px solid #eee; border-radius: 10px; padding: 20px; margin-bottom: 25px; }
-        input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
-        button { width: 100%; padding: 18px; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; text-transform: uppercase; }
-        
+        :root { --primary: #000; --bg: #f4f4f4; }
+        body { font-family: 'Times New Roman', serif; background: var(--bg); margin: 0; padding: 20px; }
+        .no-print { max-width: 950px; margin: 0 auto; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.2); }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+        fieldset { border: 1px solid #ccc; border-radius: 8px; padding: 20px; margin-bottom: 20px; }
+        input { width: 100%; padding: 10px; border: 1px solid #bbb; border-radius: 5px; }
+        button { width: 100%; padding: 20px; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 18px; transition: 0.4s; }
+        button:hover { background: #444; }
+
         #contract-printable { display: none; }
 
         @media print {
             .no-print { display: none !important; }
             #contract-printable { display: block !important; background: white; }
-            @page { size: A4; margin: 18mm; }
+            @page { size: A4; margin: 15mm 20mm; }
             .page-break { page-break-before: always; }
-            .header-contract { display: flex; justify-content: space-between; border-bottom: 2px solid #000; padding-bottom: 10px; margin-bottom: 20px; }
-            .section-title { background: #f0f0f0; border-left: 4px solid #000; padding: 5px 10px; font-weight: bold; margin-top: 15px; text-transform: uppercase; font-size: 11px; }
-            .content { font-size: 10.5px; text-align: justify; line-height: 1.4; color: #1a1a1a; }
-            .signature-box { display: flex; justify-content: space-around; margin-top: 40px; }
-            .sig-line { border-top: 1px solid #000; width: 250px; text-align: center; padding-top: 5px; font-size: 10px; }
+            .header-contract { display: flex; justify-content: space-between; border-bottom: 3px solid #000; padding-bottom: 5px; margin-bottom: 15px; }
+            .section-title { background: #e0e0e0; border: 1px solid #000; padding: 4px 10px; font-weight: bold; margin-top: 12px; text-transform: uppercase; font-size: 11px; }
+            .content { font-size: 10px; text-align: justify; line-height: 1.35; color: #000; }
+            .signature-box { display: flex; justify-content: space-around; margin-top: 30px; }
+            .sig-line { border-top: 1px solid #000; width: 220px; text-align: center; padding-top: 3px; font-size: 9px; }
         }
     </style>
 </head>
 <body>
 
 <div class="no-print">
-    <h1 style="text-align:center">Gerador de Contrato Sagaz Motors</h1>
+    <h1 style="text-align:center">Painel de Emissão de Contratos - Sagaz Motors</h1>
     <form id="contractForm">
         <fieldset>
-            <legend>Dados do Comprador</legend>
+            <legend>Informações do Adquirente</legend>
             <div class="grid">
-                <input type="text" id="in_nome" placeholder="Nome Completo" required>
-                <input type="text" id="in_doc" placeholder="CPF ou CNPJ" oninput="maskDoc(this)" maxlength="18">
-                <input type="text" id="in_tel" placeholder="WhatsApp" oninput="maskTel(this)">
-                <input type="text" id="in_cep" placeholder="CEP" oninput="maskCEP(this)">
-                <input type="text" id="in_end" placeholder="Endereço Completo" style="grid-column: span 2;">
+                <input type="text" id="in_nome" placeholder="Nome Completo / Razão Social" required>
+                <input type="text" id="in_doc" placeholder="CPF ou CNPJ" oninput="maskDoc(this)" maxlength="18" required>
+                <input type="text" id="in_tel" placeholder="Telefone de Contato" oninput="maskTel(this)" maxlength="15">
+                <input type="text" id="in_cep" placeholder="CEP" oninput="maskCEP(this)" maxlength="9">
+                <input type="text" id="in_end" placeholder="Logradouro, Número, Complemento e Bairro" style="grid-column: span 2;">
             </div>
         </fieldset>
         <fieldset>
-            <legend>Dados do Veículo</legend>
+            <legend>Especificações Técnicas do Veículo</legend>
             <div class="grid">
-                <input type="text" id="in_modelo" placeholder="Modelo">
-                <input type="text" id="in_cor" placeholder="Cor">
-                <input type="text" id="in_chassi" placeholder="Chassi/Série">
-                <input type="text" id="in_valor" placeholder="Valor total (R$)" oninput="maskMoney(this)">
+                <input type="text" id="in_modelo" placeholder="Marca/Modelo">
+                <input type="text" id="in_cor" placeholder="Coloração Predominante">
+                <input type="text" id="in_chassi" placeholder="Identificação Serial/Chassi">
+                <input type="text" id="in_valor" placeholder="Valor Venal (R$)" oninput="maskMoney(this)">
             </div>
         </fieldset>
-        <button type="button" onclick="generate()">Gerar Contrato Jurídico Detalhado</button>
+        <button type="button" id="btnExportar" onclick="generate()">HABILITAR EXPORTAÇÃO E GERAR CONTRATO (2 PÁGS)</button>
     </form>
 </div>
 
 <div id="contract-printable">
     <div class="header-contract">
-        <div style="font-weight:bold; font-size:20px">SAGAZ MOTORS PREMIUM</div>
-        <div style="text-align:right; font-size:9px">
+        <div style="font-weight:bold; font-size:18px">SAGAZ MOTORS PREMIUM</div>
+        <div style="text-align:right; font-size:8px">
             <strong>SAGAZ MOTORS LTDA</strong> | CNPJ: 63.535.526/0001-96<br>
             Av. Paranapuan, 1771C - Tauá - RJ | (21) 99905-2694
         </div>
     </div>
 
     <div class="content">
-        <h3 style="text-align:center">INSTRUMENTO PARTICULAR DE COMPRA E VENDA DE VEÍCULO ELÉTRICO, TERMO DE GARANTIA E RESPONSABILIDADE CIVIL</h3>
+        <h2 style="text-align:center; font-size:12px">INSTRUMENTO PÚBLICO DE COMPRA E VENDA, TERMO DE CESSÃO DE DIREITOS E RESPONSABILIDADE CIVIL TÉCNICA</h2>
 
-        <div class="section-title">I. DO PREÂMBULO E DAS PARTES</div>
-        <p>Pelo presente instrumento particular, de um lado, na qualidade de <strong>VENDEDORA</strong>, a empresa SAGAZ MOTORS LTDA, inscrita no CNPJ sob o nº 63.535.526/0001-96. De outro lado, na qualidade de <strong>COMPRADOR(A)</strong>, o(a) Sr(a). <span id="out_nome"></span>, portador(a) do CPF/CNPJ nº <span id="out_doc"></span>, pactuam as cláusulas e condições adiante descritas.</p>
+        <div class="section-title">I. DA QUALIFICAÇÃO DAS PARTES CONTRATANTES</div>
+        <p>Por este instrumento particular de natureza bilateral, figura como <strong>VENDEDORA</strong> a pessoa jurídica SAGAZ MOTORS LTDA, devidamente inscrita no Cadastro Nacional de Pessoas Jurídicas sob o nº 63.535.526/0001-96. Doravante designada simplesmente como "VENDEDORA". Do outro lado, na qualidade de <strong>COMPRADOR(A)</strong>, o(a) Sr(a). <span id="out_nome"></span>, devidamente identificado(a) pelo documento CPF/CNPJ nº <span id="out_doc"></span>[cite: 1], residente e domiciliado(a) no endereço <span id="out_end"></span>, CEP: <span id="out_cep"></span>[cite: 1].</p>
 
-        <div class="section-title">II. DO OBJETO E DA AQUISIÇÃO</div>
-        <p>O objeto do presente contrato é a alienação de um veículo autopropelido/elétrico Modelo: <strong><span id="out_modelo"></span></strong>, Cor: <strong><span id="out_cor"></span></strong>, Chassi/Série: <strong><span id="out_chassi"></span></strong>[cite: 1], pelo valor ajustado de R$ <strong><span id="out_valor"></span></strong>[cite: 1]. O COMPRADOR declara ter vistoriado o bem, aceitando-o em perfeito estado de conservação e funcionamento.</p>
+        <div class="section-title">II. DO OBJETO E DA TRADIÇÃO DO BEM</div>
+        <p>O presente pacto visa a alienação onerosa e definitiva de um veículo autopropelido de tração elétrica, de natureza individual, com as seguintes especificações: Modelo: <strong><span id="out_modelo"></span></strong>, Cor: <strong><span id="out_cor"></span></strong>, Chassi/Série: <strong><span id="out_chassi"></span></strong>[cite: 1]. O valor da transação perfaz a importância total de R$ <strong><span id="out_valor"></span></strong>[cite: 1]. O COMPRADOR declara ter efetuado a inspeção técnica minuciosa do bem, não restando dúvidas quanto à sua integridade estrutural e funcional no momento da tradição.</p>
 
-        <div class="section-title">III. DA GARANTIA E SUAS LIMITAÇÕES ESTRITAS</div>
-        <p>3.1. A VENDEDORA concede garantia legal e contratual de 01 (um) ano exclusivamente para o Motor e a Bateria[cite: 1], e de 90 (noventa) dias para demais componentes eletroeletrônicos[cite: 1].</p>
-        <p>3.2. <strong>DA EXCLUSÃO POR AGENTES EXTERNOS (ÁGUA E UMIDADE):</strong> Fica terminantemente estabelecido que o veículo não possui vedação para submersão. Danos decorrentes de exposição à chuva intensa, lavagem com pressurizadores, ou passagem por áreas alagadas caracterizam-se como <strong>MAU USO</strong>, acarretando a preclusão imediata de qualquer cobertura de garantia, uma vez que tais agentes externos comprometem a integridade hermética dos componentes[cite: 1].</p>
-        <p>3.3. <strong>DAS REVISÕES PREVENTIVAS:</strong> A eficácia da garantia está adstrita à realização periódica de revisões técnicas obrigatórias a cada 90 (noventa) dias[cite: 1], a serem efetuadas estritamente em estabelecimentos autorizados pela SAGAZ MOTORS. A inobservância deste cronograma implicará na decadência do direito à garantia por falta de manutenção preventiva obrigatória[cite: 1].</p>
+        <div class="section-title">III. DA GARANTIA LEGAL E CONTRATUAL - CLÁUSULAS RESTRITIVAS</div>
+        <p>3.1. A VENDEDORA outorga garantia limitada pelo prazo de 01 (um) ano para o Motor e a Unidade de Armazenamento de Energia (Bateria)[cite: 1], e de 90 (noventa) dias para componentes eletrônicos auxiliares[cite: 1].</p>
+        <p>3.2. <strong>DA CLÁUSULA DE EXCLUSÃO POR AGENTES EXTERNOS LÍQUIDOS:</strong> O COMPRADOR declara-se plena e inequivocamente ciente de que o veículo em tela é um dispositivo eletroeletrônico de alta sensibilidade, não dotado de propriedades anfíbias ou de vedação hermética para submersão. A incidência de umidade decorrente de precipitações pluviométricas severas, lavagens por aspersão de alta pressão ou transposição de áreas com acúmulo de água (poças ou alagamentos) ensejará a **preclusão imediata** e irrevogável de toda e qualquer cobertura de garantia. Tal evento será caracterizado juridicamente como <strong>NEGLIGÊNCIA E MAU USO</strong>[cite: 1].</p>
+        <p>3.3. <strong>DO CRONOGRAMA DE MANUTENÇÃO PREVENTIVA:</strong> A vigência do termo de garantia está condicionada, de forma imperativa, à realização de check-ups preventivos quadrimestrais (a cada 90 dias)[cite: 1] na oficina central da VENDEDORA. A ausência de registro sistêmico de tais revisões configura abandono de manutenção, invalidando o amparo legal deste contrato[cite: 1].</p>
 
-        <div class="section-title">IV. DA CONFORMIDADE LEGAL E RESPONSABILIDADE CIVIL</div>
-        <p>4.1. O veículo encontra-se em estrita consonância com a Resolução CONTRAN nº 996/2023[cite: 1]. O COMPRADOR assume total responsabilidade civil e criminal por quaisquer modificações que alterem as características técnicas de fábrica, notadamente o <strong>DESBLOQUEIO DE VELOCIDADE</strong>, o qual descaracteriza a natureza jurídica do veículo, invalidando a garantia e transferindo ao proprietário o ônus de eventual apreensão e multas[cite: 1].</p>
+        <div class="section-title">IV. DA CONFORMIDADE COM A RESOLUÇÃO CONTRAN 996/23 E RESPONSABILIDADES</div>
+        <p>4.1. O veículo objeto desta lide respeita integralmente os ditames da Resolução CONTRAN nº 996/2023[cite: 1]. O COMPRADOR assume, sob as penas da lei, a responsabilidade exclusiva pela condução e guarda do bem. É expressamente vedado o "desbloqueio" ou alteração de parâmetros de potência originais. Caso ocorra, tal ato será interpretado como alteração de características veiculares, transformando o bem em ciclomotor ilegal, sujeitando o COMPRADOR à apreensão do veículo e multas pecuniárias, sem qualquer direito de regresso contra a VENDEDORA[cite: 1].</p>
 
         <div class="page-break"></div>
 
-        <div class="section-title">V. DA MANUTENÇÃO DA BATERIA E COMPONENTES</div>
-        <p>5.1. O COMPRADOR obriga-se a seguir as diretrizes de carga descritas no manual, sendo vedado o uso de carregadores não homologados. A degradação da bateria por abandono (falta de carga por mais de 15 dias) não será passível de substituição em garantia.</p>
+        <div class="section-title">V. DA MANUTENÇÃO TÉCNICA E LONGEVIDADE DA BATERIA</div>
+        <p>5.1. O COMPRADOR compromete-se a observar rigorosamente os ciclos de recarga, evitando a descarga profunda (0%). Fica pactuado que baterias que apresentarem "morte química" por falta de recarga em períodos de inatividade superiores a 15 dias não serão passíveis de reposição onerosa por garantia, sendo tal evento considerado descuido técnico do proprietário.</p>
 
-        <div class="section-title">VI. DA ENTREGA E TESTE DE CONFORMIDADE</div>
-        <p>6.1. No ato da entrega, o COMPRADOR atesta o recebimento do kit de chaves, carregador e o pleno funcionamento dos sistemas de frenagem, iluminação e aceleração. Reclamações posteriores sobre danos estéticos ou peças de desgaste natural não serão admitidas.</p>
+        <div class="section-title">VI. DA LIMITAÇÃO DE RESPONSABILIDADE CIVIL E ACIDENTES</div>
+        <p>6.1. A SAGAZ MOTORS LTDA não responde, em hipótese alguma, por danos morais, materiais ou estéticos decorrentes de acidentes de trânsito envolvendo o veículo alienado. O COMPRADOR declara possuir a perícia necessária para a condução do bem e obriga-se ao uso de equipamentos de proteção individual (EPIs), como capacete e vestimenta adequada, isentando a VENDEDORA de qualquer lide judicial por danos causados a si ou a terceiros.</p>
 
-        <div class="section-title">VII. DO FORO E ASSINATURAS</div>
-        <p>As partes elegem o Foro da Comarca da Capital do Estado do Rio de Janeiro para dirimir controvérsias[cite: 1].</p>
+        <div class="section-title">VII. DA RESCISÃO E CLÁUSULA PENAL</div>
+        <p>7.1. Dada a natureza do bem alienado (veículo), após a saída do estabelecimento da VENDEDORA, qualquer tentativa de devolução por arrependimento estará sujeita a uma multa compensatória de 25% (vinte e cinco por cento) sobre o valor total, a título de depreciação e custos operacionais de re-estoque.</p>
 
-        <p style="margin-top: 40px; text-align: right;">Rio de Janeiro, <span id="out_data"></span>[cite: 1]</p>
+        <div class="section-title">VIII. DA ELEIÇÃO DE FORO E DISPOSIÇÕES FINAIS</div>
+        <p>As partes, de comum acordo, elegem o Foro Central da Comarca da Capital do Estado do Rio de Janeiro[cite: 1] para dirimir quaisquer controvérsias decorrentes da interpretação deste instrumento jurídico, com renúncia expressa a qualquer outro, por mais privilegiado que seja.</p>
+
+        <p style="margin-top: 30px; text-align: right;">Rio de Janeiro, <span id="out_data"></span>[cite: 1]</p>
 
         <div class="signature-box">
-            <div class="sig-line">SAGAZ MOTORS LTDA<br>VENDEDOR[cite: 1]</div>
-            <div class="sig-line"><span id="out_nome_sig"></span><br>COMPRADOR[cite: 1]</div>
+            <div class="sig-line">SAGAZ MOTORS LTDA<br>REPRESENTANTE LEGAL (VENDEDORA)[cite: 1]</div>
+            <div class="sig-line"><span id="out_nome_sig"></span><br>CLIENTE ADQUIRENTE (COMPRADOR)[cite: 1]</div>
         </div>
 
-        <div class="signature-box" style="margin-top:40px">
-            <div class="sig-line" style="width:200px">Testemunha 1</div>
-            <div class="sig-line" style="width:200px">Testemunha 2</div>
+        <div class="signature-box" style="margin-top:35px">
+            <div class="sig-line" style="width:180px">TESTEMUNHA 1 (Nome e CPF)</div>
+            <div class="sig-line" style="width:180px">TESTEMUNHA 2 (Nome e CPF)</div>
         </div>
     </div>
 </div>
 
 <script>
+    // Sistema de Máscaras
     function maskDoc(i) {
         let v = i.value.replace(/\D/g, "");
         if (v.length <= 11) v = v.replace(/(\d{3})(\d)/, "$1.$2").replace(/(\d{3})(\d)/, "$1.$2").replace(/(\d{3})(\d{1,2})$/, "$1-$2");
@@ -133,18 +138,41 @@
         i.value = v;
     }
 
+    // Função de Geração e Exportação
     function generate() {
         const fields = ['nome', 'doc', 'tel', 'cep', 'end', 'modelo', 'cor', 'chassi', 'valor'];
+        let check = true;
+
         fields.forEach(f => {
-            const val = document.getElementById('in_' + f).value;
-            document.getElementById('out_' + f).innerText = val || '____________________';
+            const input = document.getElementById('in_' + f);
+            const val = input.value;
+            if(input.required && !val) {
+                check = false;
+                input.style.border = "2px solid red";
+            } else {
+                if(input) input.style.border = "1px solid #bbb";
+            }
+            document.getElementById('out_' + f).innerText = val || '_________________________';
         });
+
+        if(!check) {
+            alert("ALERTA: É obrigatório o preenchimento dos campos em destaque antes de realizar a exportação do documento.");
+            return;
+        }
+
         document.getElementById('out_nome_sig').innerText = document.getElementById('in_nome').value;
         document.getElementById('out_data').innerText = new Date().toLocaleDateString('pt-BR');
-        
-        document.getElementById('contract-printable').style.display = 'block';
-        setTimeout(() => { window.print(); }, 500);
+
+        // Ativação da área de impressão
+        const contractArea = document.getElementById('contract-printable');
+        contractArea.style.display = 'block';
+
+        // Comando de impressão forçada
+        setTimeout(() => {
+            window.print();
+        }, 600);
     }
 </script>
+
 </body>
 </html>
