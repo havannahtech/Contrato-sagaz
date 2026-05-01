@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema Sagaz Motors - Contrato Profissional v8</title>
+    <title>Sistema Sagaz Motors - Contrato Profissional v9</title>
     <style>
         :root { --primary: #000; --bg: #f0f2f5; }
         
@@ -44,9 +44,9 @@
             .content { font-size: 14px; text-align: justify; line-height: 1.5; color: #000; }
             .page-break { page-break-before: always; margin-top: 20mm; }
             
-            .signature-container { margin-top: 40px; }
+            .signature-container { margin-top: 30px; }
             .signature-box { display: flex; justify-content: space-around; margin-top: 35px; text-align: center; }
-            .sig-line { border-top: 1.5px solid #000; width: 260px; padding-top: 5px; font-size: 12px; text-transform: uppercase; }
+            .sig-line { border-top: 1.5px solid #000; width: 280px; padding-top: 5px; font-size: 12px; text-transform: uppercase; }
         }
     </style>
 </head>
@@ -134,19 +134,20 @@
         <div class="section-title">7. DO FORO E ASSINATURAS</div>
         <p>As partes elegem o foro da comarca do Rio de Janeiro para dirimir quaisquer lides oriundas deste instrumento[cite: 3].</p>
 
-        <p style="margin-top: 40px; text-align: right; font-weight: bold;">Rio de Janeiro, <span id="out_data"></span></p>
+        <!-- DATA ALINHADA À ESQUERDA ACIMA DA ASSINATURA -->
+        <p style="margin-top: 40px; margin-left: 5%; text-align: left; font-weight: bold;">Rio de Janeiro, <span id="out_data"></span></p>
 
         <div class="signature-container">
             <div class="signature-box">
                 <div class="sig-line">SAGAZ MOTORS LTDA<br>VENDEDORA</div>
-                <div class="sig-line"><span id="out_nome_sig"></span><br>COMPRADOR(A)</div>
+                <div class="sig-line" id="out_nome_sig_box">________________<br>COMPRADOR(A)</div>
             </div>
             <div class="signature-box">
                 <div class="sig-line"><span id="out_vendedor_sig"></span><br>RESPONSÁVEL PELA VENDA</div>
                 <div class="sig-line">TESTEMUNHA 1</div>
             </div>
             <div class="signature-box">
-                <div class="sig-line" style="visibility: hidden;"></div>
+                <div style="width: 280px;"></div>
                 <div class="sig-line">TESTEMUNHA 2</div>
             </div>
         </div>
@@ -209,7 +210,10 @@
         const enderecoCompleto = `${rua}, Nº ${num}${comp ? ' - ' + comp : ''}, ${bairro}, ${cidade}`;
         document.getElementById('out_end_completo').innerText = enderecoCompleto;
 
-        document.getElementById('out_nome_sig').innerText = document.getElementById('in_nome').value.toUpperCase() || "COMPRADOR(A)";
+        // APENAS UMA ATRIBUIÇÃO PARA O NOME DO COMPRADOR NA ASSINATURA
+        const nomeComprador = document.getElementById('in_nome').value.toUpperCase();
+        document.getElementById('out_nome_sig_box').innerHTML = `${nomeComprador || "________________"}<br>COMPRADOR(A)`;
+        
         document.getElementById('out_vendedor_sig').innerText = document.getElementById('in_vendedor').value.toUpperCase() || "VENDEDOR";
         
         const hoje = new Date();
